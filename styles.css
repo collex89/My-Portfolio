@@ -594,6 +594,37 @@ body::before {
   font-size: 12px;
 }
 
+.tl-bullets strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.tl-link {
+  color: #38bdf8;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  transition: all 0.2s ease;
+  text-transform: none;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+.tl-link:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #7dd3fc;
+  transform: translateY(-1px);
+}
+
 /* ----- Skills Grid ----- */
 .skills-grid {
   display: grid;
