@@ -1,395 +1,841 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Collins — Full-Stack Developer & Web3 Strategist</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="Media/my x pfp.jpg" />
-    <script src="https://unpkg.com/feather-icons"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Collins | Full-Stack Developer and Web3 Strategist</title>
+<meta name="description" content="Collins builds full-stack products and grows Web3 communities across TON and Fogo Chain." />
+<link rel="icon" href="Media/my%20x%20pfp.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Gochi+Hand&family=JetBrains+Mono:wght@400;500;700&family=Pixelify+Sans:wght@400..700&display=swap" />
+<style>
+/* Layout: notebook-grid dark ground (Robin) + charcoal/orange system (Jenny).
+   Shape rule: interactive = pill, stickers/tags = 6px, cards/rows = sharp with notched corners.
+   Single dark theme by choice: the brand is dark-first. */
+:root{
+  color-scheme:dark;
+  --bg:#121212;
+  --bg-2:#1a1a1a;
+  --bg-3:#232323;
+  --grid:rgba(255,255,255,.045);
+  --line:rgba(255,255,255,.1);
+  --fg:#f3f2ee;
+  --muted:#a9a69f;
+  --dim:#706d67;
+  --accent:#ffa41b;
+  --ink:#16110a;
+  --lime:#d9f99d;
+  --mint:#8fe3b8;
+  --pink:#ff94bd;
+  --blue:#6b95ff;
+  --yellow:#ffd54a;
+  --paper:#e9e8e1;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-pixel:'Pixelify Sans','Courier New',monospace;
+  --f-hand:'Gochi Hand','Comic Sans MS',cursive;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+  --t0:1.55s;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+main{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-display);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p,figure{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:20px}
+.icon{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.icon.fill{fill:currentColor;stroke:none}
+
+/* ---------- background layers ---------- */
+.grid-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:36px 36px}
+.spot{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(520px circle at var(--mx,70%) var(--my,20%),rgba(255,164,27,.09),transparent 65%)}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);transform-origin:left;transform:scaleX(0);z-index:60;display:none}
+@supports (animation-timeline: scroll()){
+  .progress{display:block;animation:grow linear both;animation-timeline:scroll(root)}
+}
+@keyframes grow{to{transform:scaleX(1)}}
+
+/* ---------- boot ---------- */
+.boot{position:fixed;inset:0;z-index:80;background:var(--bg);display:grid;place-items:center;
+  animation:bootOut .7s cubic-bezier(.7,0,.2,1) calc(var(--t0) - .2s) forwards}
+.boot-box{width:min(420px,86vw);font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.boot-line{overflow:hidden;white-space:nowrap;width:0;border-right:2px solid transparent;margin-bottom:6px;
+  animation:type .32s steps(30,end) forwards var(--d)}
+.boot-line b{color:var(--accent);font-weight:500}
+.boot-line .ok{color:var(--mint)}
+.boot-bar{height:3px;background:var(--bg-3);margin-top:14px;overflow:hidden}
+.boot-bar span{display:block;height:100%;background:var(--accent);transform-origin:left;transform:scaleX(0);animation:grow 1.15s var(--ease) .1s forwards}
+@keyframes type{to{width:calc(var(--n) * 1ch + 4px)}}
+@keyframes bootOut{to{clip-path:inset(0 0 100% 0);visibility:hidden}}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:12px;z-index:50;padding-inline:16px;margin-top:12px}
+.nav-bar{max-width:1100px;margin-inline:auto;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:0 8px 0 10px;background:rgba(26,26,26,.82);border:1px solid var(--line);border-radius:999px;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.logo-mark{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;font-family:var(--f-pixel);font-size:22px;font-weight:700;transition:rotate .5s var(--spring)}
+.logo:hover .logo-mark{rotate:-20deg}
+.logo b{color:var(--accent)}
+.nav-links{display:flex;gap:6px;font-size:14px}
+.nav-links a{padding:8px 14px;border-radius:999px;color:var(--muted);transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--fg);background:var(--bg-3)}
+.nav-links a.on{color:var(--accent)}
+
+.btn{display:inline-flex;align-items:center;gap:10px;white-space:nowrap;border-radius:999px;font-weight:600;font-size:15px;
+  padding:12px 22px;cursor:pointer;border:0;transition:translate .35s var(--ease),background .25s,color .25s,box-shadow .25s}
+.btn:active{scale:.97}
+.btn-light{background:var(--fg);color:var(--ink);padding:10px 18px;font-size:14px}
+.btn-light:hover{background:var(--accent)}
+.btn-primary{background:var(--accent);color:var(--ink);padding:8px 8px 8px 22px}
+.btn-primary .knob{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--accent);display:grid;place-items:center;transition:rotate .4s var(--spring)}
+.btn-primary:hover{box-shadow:0 10px 30px -8px rgba(255,164,27,.55)}
+.btn-primary:hover .knob{rotate:-45deg}
+.btn-ghost{border:1.5px solid rgba(255,255,255,.35);color:var(--fg);background:transparent}
+.btn-ghost:hover{border-color:var(--fg);background:var(--fg);color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:64px 20px 40px;text-align:center}
+.name-zone{position:relative;width:fit-content;margin:0 auto}
+.my-name-is{font-family:var(--f-hand);font-size:22px;color:var(--muted);margin-bottom:6px;animation:fadeUp .6s var(--ease) both var(--t0)}
+.my-name-is svg{display:block;width:70px;height:10px;margin:2px auto 0;stroke:var(--muted);stroke-width:2;fill:none}
+.name-box{position:relative;padding:8px 34px 4px;cursor:default}
+.name-frame{position:absolute;inset:0;border:3px solid var(--accent);rotate:-1.2deg;clip-path:inset(0 100% 0 0);animation:wipe .9s var(--ease) forwards calc(var(--t0) + .1s)}
+@keyframes wipe{to{clip-path:inset(-4px -4px -4px -4px)}}
+.name{font-family:var(--f-pixel);font-weight:700;font-size:clamp(68px,12vw,156px);line-height:1;letter-spacing:.02em;display:flex}
+.name span{display:inline-block;min-width:.55em;animation:drop .7s var(--spring) both calc(var(--t0) + .15s + var(--i) * 60ms)}
+.sticker{position:absolute;z-index:2;animation:pop .6s var(--spring) both calc(var(--t0) + .55s + var(--i) * 110ms)}
+.sticker > span{display:block;rotate:var(--r);animation:bob 4.5s ease-in-out infinite calc(var(--i) * -1.1s);
+  font-family:var(--f-mono);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+  color:var(--ink);background:var(--c);padding:7px 11px;border-radius:6px;border:1.5px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,.55)}
+.sticker.hand > span{font-family:var(--f-hand);font-size:19px;font-weight:400;letter-spacing:0;text-transform:none;padding:4px 12px;border:0}
+.st-1{top:2px;left:-150px}
+.st-2{top:-6px;right:-136px}
+.st-3{bottom:52px;left:-178px}
+.st-4{bottom:44px;right:-196px}
+.arrow{position:absolute;width:62px;height:46px;fill:none;stroke:var(--fg);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.arrow path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .6s var(--ease) forwards calc(var(--t0) + 1.1s)}
+.ar-l{left:-58px;bottom:72px}
+.ar-r{right:-60px;bottom:66px;scale:-1 1}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  animation:fadeUp .6s var(--ease) both calc(var(--t0) + .9s)}
+.live{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:ping 2s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(143,227,184,.6)}80%,100%{box-shadow:0 0 0 9px rgba(143,227,184,0)}}
+
+.headline{font-weight:700;font-size:clamp(30px,4.3vw,56px);line-height:1.12;letter-spacing:-.025em;max-width:20ch;margin:40px auto 0;text-wrap:balance}
+.headline .hw{display:inline-block;animation:rise .8s var(--ease) both calc(var(--t0) + .7s + var(--i) * 45ms)}
+.chip{display:inline-grid;place-items:center;width:.95em;height:.95em;border-radius:50%;vertical-align:-.1em;font-size:.95em;margin-inline:.05em}
+.chip .icon{width:.55em;height:.55em}
+.chip-o{background:var(--accent);color:var(--ink);animation:rise .8s var(--ease) both calc(var(--t0) + .95s),wiggle 3s ease-in-out infinite calc(var(--t0) + 2s)}
+.chip-l{background:var(--lime);color:var(--ink);animation:rise .8s var(--ease) both calc(var(--t0) + 1.15s),wiggle 3s ease-in-out infinite calc(var(--t0) + 2.6s)}
+.hero-ctas{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:34px;animation:fadeUp .7s var(--ease) both calc(var(--t0) + 1.2s)}
+
+.float{position:absolute;animation:pop .7s var(--spring) both calc(var(--t0) + var(--d))}
+.float > *{animation:bob 5s ease-in-out infinite}
+.hero-avatar{left:max(20px,7%);top:150px;--d:.9s}
+.hero-avatar > div{width:92px;height:92px;border-radius:50%;border:4px solid var(--accent);overflow:hidden;background:var(--lime);box-shadow:0 0 0 6px rgba(255,164,27,.15)}
+.hero-avatar img{width:100%;height:100%;object-fit:cover}
+.hire{right:max(20px,7%);top:130px;--d:1.05s}
+.hire > a{isolation:isolate;display:grid;place-items:center;width:132px;height:132px;position:relative}
+.hire svg.ring{position:absolute;inset:0;width:100%;height:100%;animation:spin 14s linear infinite}
+.hire a:hover svg.ring{animation-duration:4s}
+.hire text{font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.2em;fill:var(--fg)}
+.hire .core{width:56px;height:56px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;font-size:22px;transition:scale .4s var(--spring)}
+.hire a:hover .core{scale:1.15}
+.hire .disc{position:absolute;inset:8px;border-radius:50%;background:var(--bg-2);border:1px solid var(--line);z-index:-1}
+
+.wave{display:block;width:100%;height:60px;margin-top:56px}
+.wave path{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s var(--ease) forwards calc(var(--t0) + 1.2s)}
+
+/* ---------- marquee ---------- */
+.marquee{rotate:-2deg;margin:-6px -30px 0;background:var(--accent);color:var(--ink);overflow:hidden;border-block:3px solid var(--bg);position:relative;z-index:2}
+.marquee-track{display:flex;width:max-content;animation:marq 32s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-item{display:flex;align-items:center;gap:28px;padding:16px 14px;font-weight:700;font-size:clamp(20px,2.4vw,30px);letter-spacing:-.01em;white-space:nowrap}
+.marquee-item .icon{width:22px;height:22px;animation:spin 6s linear infinite}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- section titles ---------- */
+.sec{padding-block:120px 40px}
+.sec-title{font-weight:700;font-size:clamp(32px,4.4vw,58px);line-height:1.05;letter-spacing:-.03em;text-wrap:balance;max-width:18ch}
+.sec-title em{font-style:normal;color:var(--accent);padding-right:.42em;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23ffa41b' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9V2M11 11l6-6M12 16h6'/%3E%3C/svg%3E") no-repeat right .05em / .38em}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.wi{display:inline-block;transition:transform .9s var(--ease);transition-delay:calc(var(--wi) * 55ms)}
+html.js [data-split]:not(.in) .wi{transform:translateY(110%)}
+html.js [data-reveal]{opacity:0;translate:0 34px;transition:opacity .8s var(--ease),translate .9s var(--ease);transition-delay:var(--rd,0s)}
+html.js [data-reveal].in{opacity:1;translate:0 0}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;grid-template-columns:230px 1fr 230px;gap:48px;align-items:center;margin-top:24px;position:relative}
+.hand-note{position:absolute;left:0;top:-70px;font-family:var(--f-hand);font-size:22px;color:var(--muted);display:flex;align-items:flex-end;gap:4px}
+.hand-note svg{width:46px;height:40px;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+.polaroid{position:relative;background:var(--paper);padding:10px 10px 12px;rotate:var(--r);box-shadow:0 18px 40px -12px rgba(0,0,0,.6);transition:rotate .6s var(--spring),scale .6s var(--spring)}
+.polaroid:hover{rotate:0deg;scale:1.04}
+.polaroid img{width:100%;aspect-ratio:1/1;object-fit:cover;object-position:top}
+.polaroid figcaption{font-family:var(--f-hand);color:#3b3934;font-size:17px;text-align:center;margin-top:8px}
+.tape{position:absolute;width:74px;height:24px;background:rgba(255,255,255,.28);backdrop-filter:blur(1px);border-inline:2px dashed rgba(255,255,255,.18);z-index:2}
+.tape.tl{top:-11px;left:-16px;rotate:-38deg}
+.tape.tr{top:-11px;right:-16px;rotate:38deg}
+.tape.tc{top:-12px;left:50%;translate:-50% 0;rotate:-3deg}
+.label-box{display:inline-block;font-weight:600;font-size:22px;border:1.5px solid var(--fg);padding:4px 16px;border-radius:6px;margin-bottom:22px}
+.about-center{text-align:center}
+.hand-copy{font-family:var(--f-hand);font-size:clamp(20px,2.1vw,26px);line-height:1.55;max-width:34ch;margin-inline:auto}
+.hand-copy mark{color:var(--ink);background:linear-gradient(var(--accent),var(--accent)) no-repeat left 60% / 0% 70%;padding:0 3px;transition:background-size 1s var(--ease) .4s;color:inherit}
+.hand-copy.in mark{background-size:100% 70%;color:var(--ink)}
+.tag-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:34px;max-width:520px;margin-inline:auto}
+.zz{--s:7px;display:inline-flex;align-items:center;font-weight:700;font-size:17px;color:var(--ink);background:var(--c);padding:10px 22px;
+  -webkit-mask:conic-gradient(from -135deg at right,#0000,#000 1deg 89deg,#0000 90deg) right/51% calc(2*var(--s)) repeat-y,conic-gradient(from 45deg at left,#0000,#000 1deg 89deg,#0000 90deg) left/51% calc(2*var(--s)) repeat-y;
+  mask:conic-gradient(from -135deg at right,#0000,#000 1deg 89deg,#0000 90deg) right/51% calc(2*var(--s)) repeat-y,conic-gradient(from 45deg at left,#0000,#000 1deg 89deg,#0000 90deg) left/51% calc(2*var(--s)) repeat-y;
+  transition:rotate .4s var(--spring),scale .4s var(--spring)}
+.tile{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:6px;background:var(--c);color:var(--ink);font-size:20px;transition:rotate .4s var(--spring),scale .4s var(--spring)}
+.zz:hover,.tile:hover{rotate:-4deg;scale:1.08}
+html.js .tag-row > *{opacity:0;scale:.4;transition:opacity .4s,scale .6s var(--spring),rotate .4s var(--spring);transition-delay:calc(var(--k) * 70ms + .2s)}
+html.js .tag-row.in > *{opacity:1;scale:1}
+html.js .tag-row.in > *:hover{scale:1.08;transition-delay:0s}
+
+.notes{display:flex;justify-content:center;gap:34px;flex-wrap:wrap;margin-top:90px}
+.note{position:relative;width:230px;min-height:200px;padding:30px 20px 20px;background:var(--c);color:var(--ink);rotate:var(--r);box-shadow:0 20px 40px -14px rgba(0,0,0,.7)}
+html.js .note{opacity:0;scale:.6;translate:0 40px;transition:opacity .4s,scale .8s var(--spring),translate .8s var(--spring),rotate .5s var(--spring);transition-delay:calc(var(--k) * 120ms)}
+html.js .note.in{opacity:1;scale:1;translate:0 0}
+.note:hover{rotate:0deg}
+.note-num{font-family:var(--f-pixel);font-weight:700;font-size:58px;line-height:1;font-variant-numeric:tabular-nums}
+.note-label{font-family:var(--f-hand);font-size:19px;line-height:1.3;margin-top:12px}
+
+/* ---------- services ---------- */
+.svc-list{margin-top:56px;display:grid;gap:14px}
+.svc{--notch:polygon(0 16px,18% 16px,calc(18% + 16px) 0,100% 0,100% 100%,0 100%);clip-path:var(--notch);background:var(--bg-2);cursor:pointer;transition:background .45s var(--ease),color .45s var(--ease)}
+.svc:hover{background:var(--bg-3)}
+.svc.is-open{background:var(--accent);color:var(--ink)}
+.svc-head{display:grid;grid-template-columns:18% 1fr auto;align-items:center;padding:28px 24px 20px}
+.svc-num{font-family:var(--f-mono);font-size:13px;color:var(--dim);padding-top:8px}
+.svc.is-open .svc-num{color:var(--ink)}
+.svc h3{font-size:clamp(20px,2.4vw,30px);font-weight:700;letter-spacing:-.015em}
+.svc-arrow{width:42px;height:42px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;font-size:18px;transition:rotate .5s var(--spring),background .3s,color .3s}
+.svc.is-open .svc-arrow{background:var(--ink);color:var(--accent);rotate:45deg}
+.svc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.svc.is-open .svc-body{grid-template-rows:1fr}
+.svc-body > div{overflow:hidden}
+.svc-inner{display:grid;grid-template-columns:18% 1fr 230px;gap:0 24px;padding:0 24px 30px}
+.svc-content{grid-column:2}
+.svc-tags{display:flex;flex-wrap:wrap;gap:8px}
+.svc-tags span{font-family:var(--f-mono);font-size:12px;border:1.5px solid currentColor;padding:5px 11px;border-radius:6px;opacity:.85}
+.svc p{margin-top:16px;max-width:52ch;line-height:1.6;font-size:15.5px}
+.svc-img{grid-column:3;position:relative;rotate:4deg;background:var(--paper);padding:6px;align-self:start;margin-top:-30px;transition:rotate .6s var(--spring) .1s,translate .6s var(--spring) .1s;translate:0 30px}
+.svc.is-open .svc-img{rotate:-3deg;translate:0 0}
+.svc-img img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top}
+.svc-img .tint{filter:grayscale(1) sepia(1) saturate(3) hue-rotate(-12deg) brightness(.9)}
+
+/* ---------- projects stack ---------- */
+.stack{padding-top:76px;padding-bottom:60px}
+.pcard{position:sticky;top:122px;margin-bottom:16vh}
+.pcard:last-child{margin-bottom:0}
+.ptab{position:absolute;bottom:calc(100% - 1px);left:calc(var(--i) * 172px);height:38px;display:flex;align-items:center;gap:8px;padding:0 26px 0 18px;
+  background:var(--c);color:var(--tc,var(--ink));font-family:var(--f-mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 100%,0 100%);white-space:nowrap}
+.ptab .icon{width:12px;height:12px}
+.pbody{background:var(--c);color:var(--tc,var(--ink));min-height:min(500px,66vh);display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:center;padding:48px;
+  box-shadow:0 -24px 50px -20px rgba(0,0,0,.65);overflow:hidden;position:relative}
+.pbody::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);background-size:36px 36px}
+.pmeta{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.pinfo h3{font-size:clamp(40px,5.6vw,76px);font-weight:800;letter-spacing:-.04em;line-height:.95;margin-top:16px}
+.pinfo p{margin-top:16px;font-size:16px;line-height:1.55;max-width:38ch;opacity:.85}
+.plink{display:inline-flex;align-items:center;gap:6px;margin-top:26px;font-family:var(--f-mono);font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid currentColor;padding-bottom:3px;transition:gap .3s var(--ease)}
+.plink:hover{gap:12px}
+.plink.locked{border-bottom-style:dashed;opacity:.75;cursor:default}
+.pshot{position:relative;z-index:1;background:var(--paper);padding:10px;rotate:7deg;translate:30px 60px;opacity:0;transition:rotate 1s var(--spring) .15s,translate 1s var(--spring) .15s,opacity .5s .15s;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.pcard.in .pshot,html:not(.js) .pshot{rotate:2deg;translate:0 0;opacity:1}
+.pcard.in .pshot:hover{rotate:0deg;scale:1.02;transition-delay:0s}
+.pshot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+
+/* ---------- experience chain ---------- */
+.chain{position:relative;margin-top:70px;display:grid;gap:34px;view-timeline-name:--chain}
+.chain-line{position:absolute;left:50%;top:0;bottom:0;width:2px;translate:-1px 0;background:rgba(255,255,255,.1)}
+.chain-fill{position:absolute;inset:0;transform-origin:top;
+  background:repeating-linear-gradient(to bottom,var(--accent) 0 14px,transparent 14px 24px);background-size:100% 24px;animation:flow 1s linear infinite}
+@keyframes flow{to{background-position:0 24px}}
+@supports (animation-timeline: view()){
+  .chain-fill{animation:flow 1s linear infinite,fillDown linear both;animation-timeline:auto,--chain;animation-range:normal,entry 30% exit 30%}
+}
+@keyframes fillDown{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.block{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center}
+.node{grid-column:2;justify-self:center;width:22px;height:22px;rotate:45deg;background:var(--bg);border:2px solid var(--dim);transition:background .5s,border-color .5s,box-shadow .5s,rotate .9s var(--spring)}
+.block.in .node{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 7px rgba(255,164,27,.18);rotate:225deg}
+.bcard{--cut:18px;background:var(--bg-2);border:1px solid var(--line);padding:26px 26px 24px;clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,0 100%);transition:background .3s,translate .9s var(--ease),opacity .8s}
+.bcard:hover{background:var(--bg-3)}
+.block.l .bcard{grid-column:1;grid-row:1}
+.block.r .bcard{grid-column:3;grid-row:1}
+.block .node{grid-row:1}
+html.js .block .bcard{opacity:0}
+html.js .block.l .bcard{translate:-50px 0}
+html.js .block.r .bcard{translate:50px 0}
+html.js .block.in .bcard{opacity:1;translate:0 0}
+.bdate{font-family:var(--f-mono);font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--accent)}
+.brole{font-size:21px;font-weight:700;margin-top:8px;letter-spacing:-.01em}
+.bco{color:var(--muted);font-size:14px;margin-top:4px}
+.bco a{color:var(--accent);border-bottom:1px solid currentColor}
+.bcard ul{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.bcard li{font-size:14.5px;line-height:1.55;color:#cfccc5;padding-left:20px;position:relative}
+.bcard li::before{content:"";position:absolute;left:2px;top:.55em;width:7px;height:7px;background:var(--accent);rotate:45deg}
+
+/* ---------- contact ---------- */
+.contact{text-align:center;padding-block:140px 30px}
+.big{font-family:var(--f-pixel);font-weight:700;font-size:clamp(64px,13vw,190px);line-height:.95;display:flex;justify-content:center;flex-wrap:wrap;gap:0 .3em}
+.big .word{display:inline-flex}
+.big span span{display:inline-block;transition:translate .45s var(--spring),color .2s}
+.big span span:hover{translate:0 -14px;color:var(--accent)}
+html.js .big span span{opacity:0;translate:0 -70px}
+html.js .big.in span span{opacity:1;translate:0 0;transition:translate .8s var(--spring) calc(var(--i) * 55ms),opacity .3s calc(var(--i) * 55ms),color .2s}
+html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition-delay:0s}
+.contact-sub{color:var(--muted);font-size:18px;margin-top:22px}
+.contact-row{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-top:36px}
+.email{display:inline-flex;align-items:center;gap:6px;padding:6px 6px 6px 18px;border:1.5px dashed rgba(255,255,255,.3);border-radius:999px;font-family:var(--f-mono);font-size:14px}
+.email span{user-select:all}
+.email button{border:0;background:var(--bg-3);border-radius:999px;padding:8px 14px;font-family:var(--f-mono);font-size:12px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;transition:background .2s,color .2s}
+.email button:hover{background:var(--fg);color:var(--ink)}
+.socials{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:44px}
+.soc{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;background:var(--c);color:var(--ink);border-radius:6px;font-weight:700;font-size:15px;rotate:var(--r);
+  border:1.5px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.6);transition:rotate .4s var(--spring),translate .4s var(--spring),box-shadow .3s}
+.soc small{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.soc:hover{rotate:0deg;translate:-2px -4px;box-shadow:7px 9px 0 rgba(0,0,0,.6)}
+
+.foot{padding:70px 16px 22px}
+.foot-bar{max-width:1100px;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;
+  padding:12px 12px 12px 22px;background:var(--bg-2);border:1px solid var(--line);border-radius:999px;font-size:14px;color:var(--muted)}
+.foot-bar nav{display:flex;gap:18px}
+.foot-bar a:hover{color:var(--fg)}
+.top-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--ink);transition:translate .35s var(--spring)}
+.top-btn:hover{translate:0 -4px}
+
+/* ---------- keyframes ---------- */
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadeUp{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
+@keyframes rise{from{opacity:0;translate:0 .7em;rotate:4deg}to{opacity:1;translate:0 0;rotate:0deg}}
+@keyframes drop{from{opacity:0;translate:0 -80px;rotate:-14deg}to{opacity:1;translate:0 0;rotate:0deg}}
+@keyframes pop{from{opacity:0;scale:.2}to{opacity:1;scale:1}}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes spin{to{rotate:360deg}}
+@keyframes wiggle{0%,86%,100%{rotate:0deg}90%{rotate:-14deg}95%{rotate:12deg}}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .st-1{left:-110px}.st-2{right:-104px}.st-3{left:-120px}.st-4{right:-130px}
+  .ar-l,.ar-r{display:none}
+  .hero-avatar,.hire{top:auto;bottom:250px}
+}
+@media (max-width:900px){
+  .nav-links{display:none}
+  .hero{padding-top:84px}
+  .sticker{scale:.9}
+  .name-zone{padding-bottom:48px}
+  .st-1{top:-34px;left:-6px}.st-2{top:-40px;right:-6px}.st-3{bottom:0;left:6px}.st-4{bottom:2px;right:6px}
+  .float{display:none}
+  .about-grid{grid-template-columns:1fr 1fr;gap:40px 24px}
+  .about-center{grid-column:1 / -1;order:-1}
+  .hand-note{display:none}
+  .polaroid{max-width:220px;justify-self:center}
+  .svc-inner{grid-template-columns:1fr}
+  .svc-content{grid-column:1}
+  .svc-img{display:none}
+  .svc-head{grid-template-columns:44px 1fr auto}
+  .svc{--notch:polygon(0 12px,40px 12px,52px 0,100% 0,100% 100%,0 100%)}
+  .pbody{grid-template-columns:1fr;padding:30px 24px 34px;gap:26px;min-height:calc(100svh - 150px);align-content:start}
+  .pshot{order:-1}
+  .ptab{left:calc(var(--i) * 48px);padding:0 22px 0 14px}
+  .ptab .tn{display:none}
+  .pinfo p{font-size:15px}
+  .chain-line{left:14px}
+  .block{grid-template-columns:30px 1fr;gap:0 14px}
+  .block .node{grid-column:1}
+  .block.l .bcard,.block.r .bcard{grid-column:2}
+  html.js .block.l .bcard,html.js .block.r .bcard{translate:40px 0}
+  html.js .block.in .bcard{translate:0 0}
+  .notes{gap:26px}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:16px}
+  .name-box{padding:6px 18px 2px}
+  .sticker > span{font-size:9.5px;padding:5px 8px}
+  .sticker.hand > span{font-size:15px;padding:3px 9px}
+  .hero-ctas .btn{flex:1 1 auto;justify-content:center}
+  .pcard{top:100px}
+  .foot-bar{border-radius:20px;justify-content:center;text-align:center;padding:16px}
+  .foot-bar nav{flex-wrap:wrap;justify-content:center}
+  .note{width:100%;max-width:300px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  .boot{display:none}
+  .marquee-track{animation:none}
+}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+
 </head>
-
 <body>
-    <div class="layout">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7z"/><path d="M12 21.5V12M3.5 7 12 12l8.5-5"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.6 3.4-5.6 6.5-5.6s5.8 2 6.5 5.6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.6c1.6.8 2.7 2.6 3 5.4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="1.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 1.5c.7 6.2 4.3 9.8 10.5 10.5-6.2.7-9.8 4.3-10.5 10.5C11.3 16.3 7.7 12.7 1.5 12 7.7 11.3 11.3 7.7 12 1.5z"/></symbol>
+</svg>
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="avatar-wrap">
-                <img src="Media/my x pfp.jpg" alt="Collins" class="avatar" />
-                <div>
-                    <div class="sidebar-name">COLLINS</div>
-                    <div class="sidebar-title">Full-Stack Developer<br />& Web3 Strategist</div>
-                </div>
-            </div>
+<div class="grid-bg"></div>
+<div class="spot" id="spot"></div>
+<div class="progress"></div>
 
-            <div class="nav-section">
-                <div class="nav-label">Workspace</div>
-                <a href="#about" class="nav-item">
-                    <i data-feather="user" style="width: 14px; height: 14px;"></i> About Me
-                </a>
-                <a href="#experience" class="nav-item">
-                    <i data-feather="briefcase" style="width: 14px; height: 14px;"></i> Work Experience
-                </a>
-                <a href="#projects" class="nav-item">
-                    <i data-feather="zap" style="width: 14px; height: 14px;"></i> Proof of Work
-                </a>
-                <a href="#skills" class="nav-item">
-                    <i data-feather="tool" style="width: 14px; height: 14px;"></i> Skills & Expertise
-                </a>
-            </div>
+<div class="boot" aria-hidden="true">
+  <div class="boot-box">
+    <div class="boot-line" style="--n:28;--d:.05s"><b>&gt;</b> booting collins.portfolio</div>
+    <div class="boot-line" style="--n:32;--d:.35s"><b>&gt;</b> syncing TON + Fogo Chain <span class="ok">ok</span></div>
+    <div class="boot-line" style="--n:31;--d:.65s"><b>&gt;</b> loading proof of work <span class="ok">ok</span></div>
+    <div class="boot-line" style="--n:5;--d:.95s"><b>&gt;</b> gm</div>
+    <div class="boot-bar"><span></span></div>
+  </div>
+</div>
 
-            <div class="sidebar-contacts">
-                <div class="nav-label" style="padding: 0 0 4px;">Contact</div>
-                <a href="https://t.me/collex89" target="_blank" class="contact-item">
-                    <span class="contact-dot" style="background:#0ea5e9"></span> Telegram: collex89
-                </a>
-                <a href="mailto:ugwucollins881@gmail.com" target="_blank" class="contact-item">
-                    <span class="contact-dot" style="background:#e879f9"></span> Email: ugwucollins881
-                </a>
-                <a href="https://x.com/collex89" target="_blank" class="contact-item">
-                    <span class="contact-dot" style="background:#cbd5e1"></span> X: Collex89
-                </a>
-                <a href="https://github.com/collex89" target="_blank" class="contact-item">
-                    <span class="contact-dot" style="background:#4ade80"></span> GitHub: collex89
-                </a>
-            </div>
-        </aside>
+<header class="nav">
+  <div class="nav-bar">
+    <a href="#top" class="logo"><span class="logo-mark">C</span><span>Collins<b>.</b></span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+    </nav>
+    <a href="#contact" class="btn btn-light" data-magnet>Get in touch</a>
+  </div>
+</header>
 
-        <!-- MAIN CONTENT -->
-        <main class="main">
-
-            <!-- Decorative Glows -->
-            <div class="glow-orb glow-orb-1"></div>
-            <div class="glow-orb glow-orb-2"></div>
-
-            <!-- HERO -->
-            <section class="hero" id="about">
-                <div class="hero-bg"></div>
-                <div class="hero-container">
-                    <div class="hero-content">
-                        <div class="hero-tag">Available for Web3 Opportunities</div>
-                        <h1>I am <em>Collins.</em></h1>
-                        <div class="hero-sub">Full-Stack Developer · Web3 Strategist · Community Architect</div>
-
-                        <p class="hero-bio">
-                            A passionate Web3 enthusiast pursuing a BSc in Computer Science. I operate at the
-                            intersection of <strong>technical execution and organic growth</strong> — bridging code and
-                            community. From building full-stack applications to amplifying community growth across
-                            ecosystems like TON and Fogo Chain, I deliver solutions that scale.
-                        </p>
-
-                        <div class="stat-row">
-                            <div class="stat">
-                                <div class="stat-num">28K+</div>
-                                <div class="stat-label">Monthly Users</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-num">5+</div>
-                                <div class="stat-label">Web3 Projects</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-num">15x</div>
-                                <div class="stat-label">Growth Achieved</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hero-visual reveal">
-                        <img src="Media/hero_graphic.png" alt="3D Web3 Data Nodes" class="hero-img-3d" />
-                    </div>
-                </div>
-            </section>
-
-            <!-- EXPERIENCE (Timeline) -->
-            <section class="section reveal" id="experience">
-                <div class="section-header">
-                    <div class="section-icon icon-cyan">
-                        <i data-feather="briefcase" style="width: 18px; height: 18px;"></i>
-                    </div>
-                    <div class="section-title">Work Experience</div>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="timeline">
-
-                    <!-- CRESCAMUS APP ENTRY -->
-                    <div class="tl-item reveal">
-                        <div class="tl-date">2025<br />→ present</div>
-                        <div class="tl-right">
-                            <div class="tl-role">Full-Stack Developer & Creator</div>
-                            <div class="tl-company">
-                                Crescamus App · <a href="https://crescamus.app" target="_blank" rel="noopener noreferrer" class="tl-link">crescamus.app <i data-feather="external-link" style="width: 10px; height: 10px;"></i></a>
-                            </div>
-                            <ul class="tl-bullets">
-                                <li>Architected and developed <strong>Crescamus</strong>, a modern Catholic social and spiritual growth platform fostering authentic prayer life and fellowship.</li>
-                                <li>Engineered core modules including Catholic Scripture study, daily Saint reflections, curated sacred audio player, and faith-centered community sharing feeds.</li>
-                                <li>Implemented secure multi-provider authentication (Google SSO, Apple, Email) and responsive PWA architecture for smooth cross-device performance.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- VIBECODING ENTRY (2025 Start) -->
-                    <div class="tl-item reveal">
-                        <div class="tl-date">2025<br />→ present</div>
-                        <div class="tl-right">
-                            <div class="tl-role">Vibecoder</div>
-                            <div class="tl-company">Independent Development</div>
-                            <ul class="tl-bullets">
-                                <li>Rapid prototyping of Web3 applications and full-stack solutions.</li>
-                                <li>Leveraging AI-assisted development (Vibecoding) to radically accelerate coding
-                                    iteration loops.</li>
-                                <li>Translating complex logic into functional MVPs at unprecedented speed.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Existing Entries -->
-                    <div class="tl-item reveal">
-                        <div class="tl-date">2025<br />→ present</div>
-                        <div class="tl-right">
-                            <div class="tl-role">Chief Marketing Officer</div>
-                            <div class="tl-company">Titan Aggregator — The Open Network (TON)</div>
-                            <ul class="tl-bullets">
-                                <li>Promoted for exceptional performance and strategic management skills.</li>
-                                <li>Secured numerous collaboration deals and won multiple write contests.</li>
-                                <li>Working with wider development team to achieve 28,000+ bot monthly users.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="tl-item reveal">
-                        <div class="tl-date">2025<br />→ present</div>
-                        <div class="tl-right">
-                            <div class="tl-role">Moderator & News Strategist</div>
-                            <div class="tl-company">Valiant Trade — Fogo Chain</div>
-                            <ul class="tl-bullets">
-                                <li>Community management and moderation for the leading DEX on Fogo Chain.</li>
-                                <li>Currently building Telegram community with 2x continuous growth achieved.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="tl-item reveal">
-                        <div class="tl-date">2024<br />→ 2025</div>
-                        <div class="tl-right">
-                            <div class="tl-role">Regional Lead Ambassador</div>
-                            <div class="tl-company">PrayTelegram — Nigeria</div>
-                            <ul class="tl-bullets">
-                                <li>Built a strong localized community through strategic promotion and engagement
-                                    frameworks.</li>
-                                <li>Developed and managed the ambassadorship program.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="tl-item reveal">
-                        <div class="tl-date">2025</div>
-                        <div class="tl-right">
-                            <div class="tl-role">Intern & Project Manager</div>
-                            <div class="tl-company">Meta Estate & KLK Foundations</div>
-                            <ul class="tl-bullets">
-                                <li>Grew English segment achieving 15x follower growth (Meta Estate).</li>
-                                <li>Led team of 10 chatters implementing community growth strategy boosting market cap
-                                    from $7M to $15M (KLK).</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- PROJECTS -->
-            <section class="section reveal" id="projects">
-                <div class="section-header">
-                    <div class="section-icon icon-orange">
-                        <i data-feather="terminal" style="width: 18px; height: 18px;"></i>
-                    </div>
-                    <div class="section-title">Proof of Work</div>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="projects-grid">
-
-                    <a href="https://crescamus.app" target="_blank" rel="noopener noreferrer"
-                        class="project-card reveal">
-                        <img src="Media/crescamus.png" alt="Crescamus App" class="project-img" style="object-position: center;" />
-                        <div class="project-content">
-                            <div class="project-name">Crescamus</div>
-                            <div class="project-type">Full-Stack Catholic Community App</div>
-                            <div class="project-desc">A spiritual platform featuring Catholic Scripture reading,
-                                daily Saint reflections, curated sacred audio, and an authentic prayer fellowship
-                                community.</div>
-                            <div class="project-link">
-                                View Live App <i data-feather="arrow-right" style="width:14px; height:14px"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://github.com/collex89/My-Industrial-training-project" target="_blank"
-                        class="project-card reveal">
-                        <img src="Media/studycircuit.png" alt="StudyCircuit" class="project-img" />
-                        <div class="project-content">
-                            <div class="project-name">StudyCircuit</div>
-                            <div class="project-type">Full-Stack Application</div>
-                            <div class="project-desc">A comprehensive educational platform featuring AI-powered tests,
-                                collaborative tools, real-time sharing, and administrative dashboards.</div>
-                            <div class="project-link">
-                                View Project <i data-feather="arrow-right" style="width:14px; height:14px"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="project-card reveal">
-                        <img src="Media/emberalert.png" alt="EmberAlert" class="project-img" />
-                        <div class="project-content">
-                            <div class="project-name">EmberAlert</div>
-                            <div class="project-type">Web3 Analytics · Fogo Chain</div>
-                            <div class="project-desc">Sophisticated price alert application for Fogo Chain tokens,
-                                fetching live pricing directly from liquidity pools for real-time DeFi monitoring.</div>
-                            <div class="project-link" style="color:var(--muted)">
-                                Private Repo <i data-feather="lock" style="width:14px; height:14px"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://web-production-96e66.up.railway.app/" target="_blank" class="project-card reveal">
-                        <img src="Media/smc_bot.png" alt="SMC Trading Bot" class="project-img" />
-                        <div class="project-content">
-                            <div class="project-name">SMC Trading Bot</div>
-                            <div class="project-type">Algorithmic Trading</div>
-                            <div class="project-desc">Automated crypto trading bot implementing Smart Money Concepts
-                                analysis with 30-min market structure scanning. Deployed 24/7.</div>
-                            <div class="project-link">
-                                View Deployment <i data-feather="arrow-right" style="width:14px; height:14px"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="project-card reveal">
-                        <img src="Media/edutrack.png" alt="EduTrack Dashboard" class="project-img" />
-                        <div class="project-content">
-                            <div class="project-name">EduTrack</div>
-                            <div class="project-type">Database Architecture</div>
-                            <div class="project-desc">Student information management platform featuring dual-access
-                                visibility architecture for students alongside protected admin features.</div>
-                            <div class="project-link" style="color:var(--muted)">
-                                Local Environment <i data-feather="server" style="width:14px; height:14px"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://jj-lodge.onrender.com" target="_blank" class="project-card reveal">
-                        <img src="Media/jjlodge.png" alt="JJ Lodge Nsukka" class="project-img" />
-                        <div class="project-content">
-                            <div class="project-name">JJ Lodge Nsukka</div>
-                            <div class="project-type">Full-Stack Hospitality Platform</div>
-                            <div class="project-desc">Premium hotel booking website featuring room exploration, online
-                                reservations, restaurant services, gallery, and full facility management for a luxury
-                                lodge.</div>
-                            <div class="project-link">
-                                View Live Site <i data-feather="arrow-right" style="width:14px; height:14px"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-            </section>
-
-            <!-- SKILLS -->
-            <section class="section reveal" id="skills">
-                <div class="section-header">
-                    <div class="section-icon icon-green">
-                        <i data-feather="cpu" style="width: 18px; height: 18px;"></i>
-                    </div>
-                    <div class="section-title">Skills & Expertise</div>
-                    <div class="section-line"></div>
-                </div>
-
-                <div class="skills-grid">
-
-                    <div class="skill-card reveal">
-                        <div class="skill-cat">Core Programming</div>
-                        <div class="skill-tags">
-                            <span class="tag">JavaScript</span>
-                            <span class="tag">HTML5</span>
-                            <span class="tag">CSS3</span>
-                            <span class="tag">REST APIs</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card reveal">
-                        <div class="skill-cat">Stack & Databases</div>
-                        <div class="skill-tags">
-                            <span class="tag">React.js</span>
-                            <span class="tag">Node.js</span>
-                            <span class="tag">Express.js</span>
-                            <span class="tag">MongoDB</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card reveal">
-                        <div class="skill-cat">Web3 & Strategy</div>
-                        <div class="skill-tags">
-                            <span class="tag">Smart Contracts</span>
-                            <span class="tag">TON</span>
-                            <span class="tag">Fogo Chain</span>
-                            <span class="tag">DeFi Analytics</span>
-                            <span class="tag">DEX Integration</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card reveal">
-                        <div class="skill-cat">Development Methodologies</div>
-                        <div class="skill-tags">
-                            <span class="tag"
-                                style="background:rgba(124,58,237,0.15); color:#c4b5fd; border-color:rgba(124,58,237,0.3)">Vibecoding</span>
-                            <span class="tag">Prompt Engineering</span>
-                            <span class="tag">Git/GitHub</span>
-                            <span class="tag">Automated Deployment</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card reveal">
-                        <div class="skill-cat">Community Growth</div>
-                        <div class="skill-tags">
-                            <span class="tag">Telegram Bots</span>
-                            <span class="tag">Ambassador Programs</span>
-                            <span class="tag">Social Media Architecture</span>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- FOOTER -->
-            <footer class="footer">
-                <div class="footer-brand"><em>Collins</em> — Portfolio 2026</div>
-                <div class="footer-note">Full-Stack Development · Web3 Strategies · Vibecoding</div>
-            </footer>
-
-        </main>
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="float hero-avatar"><div><img src="Media/my%20x%20pfp.jpg" alt="Collins avatar" /></div></div>
+    <div class="float hire">
+      <a href="#contact" aria-label="Get in touch" data-magnet>
+        <span class="disc"></span>
+        <svg class="ring" viewBox="0 0 132 132" aria-hidden="true">
+          <defs><path id="circ" d="M66 66m-50 0a50 50 0 1 1 100 0a50 50 0 1 1-100 0"/></defs>
+          <text><textPath href="#circ" textLength="312">OPEN TO WORK * HIRE ME * OPEN TO WORK * HIRE ME *</textPath></text>
+        </svg>
+        <span class="core"><svg class="icon"><use href="#i-arrow"/></svg></span>
+      </a>
     </div>
 
-    <!-- Feather Icons Init -->
-    <script>
-        feather.replace();
+    <div class="name-zone">
+      <div class="my-name-is">my name is<svg viewBox="0 0 70 10"><path d="M2 6c10-5 18 3 28-1s20-4 38 0"/></svg></div>
+      <div class="name-box" id="nameBox">
+        <span class="name-frame" aria-hidden="true"></span>
+        <h1 class="name" id="name" aria-label="Collins">
+          <span style="--i:0" data-c="C">C</span><span style="--i:1" data-c="O">O</span><span style="--i:2" data-c="L">L</span><span style="--i:3" data-c="L">L</span><span style="--i:4" data-c="I">I</span><span style="--i:5" data-c="N">N</span><span style="--i:6" data-c="S">S</span>
+        </h1>
+      </div>
+      <div class="sticker st-1" style="--i:0"><span style="--c:var(--mint);--r:-6deg">ships real apps</span></div>
+      <div class="sticker st-2" style="--i:1"><span style="--c:var(--yellow);--r:5deg">web3 native</span></div>
+      <div class="sticker hand st-3" style="--i:2"><span style="--c:var(--accent);--r:-4deg">Full-Stack Dev</span></div>
+      <div class="sticker hand st-4" style="--i:3"><span style="--c:var(--lime);--r:4deg">TON + Fogo Chain</span></div>
+      <svg class="arrow ar-l" viewBox="0 0 62 46" aria-hidden="true"><path pathLength="1" d="M4 40C18 38 34 30 52 10M41 9l11 1 1 11"/></svg>
+      <svg class="arrow ar-r" viewBox="0 0 62 46" aria-hidden="true"><path pathLength="1" d="M4 40C18 38 34 30 52 10M41 9l11 1 1 11"/></svg>
+      <div class="status"><span class="live"></span>Open to Web3 roles and hard problems</div>
+    </div>
 
-        // Scroll reveal animation script
-        function reveal() {
-            const reveals = document.querySelectorAll(".reveal");
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        window.addEventListener("load", reveal);
-    </script>
+    <p class="headline">
+      <span class="hw" style="--i:0">I</span> <span class="hw" style="--i:1">build</span> <span class="hw" style="--i:2">products</span><span class="chip chip-o"><svg class="icon"><use href="#i-code"/></svg></span><span class="hw" style="--i:3">,</span> <span class="hw" style="--i:4">then</span> <span class="hw" style="--i:5">grow</span> <span class="hw" style="--i:6">the</span> <span class="hw" style="--i:7">communities</span> <span class="hw" style="--i:8">that</span> <span class="hw" style="--i:9">use</span> <span class="hw" style="--i:10">them.</span><span class="chip chip-l"><svg class="icon"><use href="#i-users"/></svg></span>
+    </p>
+    <div class="hero-ctas">
+      <a href="#work" class="btn btn-primary" data-magnet>View my work <span class="knob"><svg class="icon"><use href="#i-right"/></svg></span></a>
+      <a href="#contact" class="btn btn-ghost" data-magnet>Get in touch</a>
+    </div>
+
+    <svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 46C200 6 420 4 600 26s420 34 600-10"/></svg>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-item">Full-Stack Development <svg class="icon fill"><use href="#i-spark"/></svg> Web3 Strategy <svg class="icon fill"><use href="#i-spark"/></svg> Telegram Bots <svg class="icon fill"><use href="#i-spark"/></svg> DeFi Analytics <svg class="icon fill"><use href="#i-spark"/></svg> Community Growth <svg class="icon fill"><use href="#i-spark"/></svg> Vibecoding <svg class="icon fill"><use href="#i-spark"/></svg></div>
+      <div class="marquee-item">Full-Stack Development <svg class="icon fill"><use href="#i-spark"/></svg> Web3 Strategy <svg class="icon fill"><use href="#i-spark"/></svg> Telegram Bots <svg class="icon fill"><use href="#i-spark"/></svg> DeFi Analytics <svg class="icon fill"><use href="#i-spark"/></svg> Community Growth <svg class="icon fill"><use href="#i-spark"/></svg> Vibecoding <svg class="icon fill"><use href="#i-spark"/></svg></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="sec" id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="hand-note">about me!<svg viewBox="0 0 46 40"><path d="M3 6c14 0 30 8 36 26M30 27l9 6 4-10"/></svg></div>
+        <figure class="polaroid" style="--r:-5deg" data-reveal>
+          <span class="tape tl"></span><span class="tape tr"></span>
+          <img src="Media/my%20x%20pfp.jpg" alt="Collins" />
+          <figcaption>that's me</figcaption>
+        </figure>
+        <div class="about-center">
+          <h2 class="label-box">what's up</h2>
+          <p class="hand-copy" id="handCopy">I'm a CS student who <mark>writes code at night</mark> and runs Web3 communities by day. I like turning messy ideas into apps people actually open, then <mark>getting those people to stay</mark>.</p>
+          <div class="tag-row" id="tagRow">
+            <span class="zz" style="--c:var(--accent);--k:0">Full-Stack Dev</span>
+            <span class="tile" style="--c:var(--yellow);--k:1"><svg class="icon"><use href="#i-code"/></svg></span>
+            <span class="zz" style="--c:var(--mint);--k:2">Web3 Strategy</span>
+            <span class="tile" style="--c:var(--blue);--k:3"><svg class="icon"><use href="#i-cube"/></svg></span>
+            <span class="zz" style="--c:var(--pink);--k:4">Community Growth</span>
+            <span class="tile" style="--c:var(--lime);--k:5"><svg class="icon"><use href="#i-bolt"/></svg></span>
+            <span class="zz" style="--c:var(--blue);--k:6">Vibecoding</span>
+          </div>
+        </div>
+        <figure class="polaroid" style="--r:4deg;--rd:.15s" data-reveal>
+          <span class="tape tc"></span>
+          <img src="Media/crescamus.png" alt="Crescamus app screenshot" />
+          <figcaption>shipping now: Crescamus</figcaption>
+        </figure>
+      </div>
+
+      <div class="notes">
+        <div class="note" style="--c:var(--yellow);--r:-4deg;--k:0"><span class="tape tc"></span><div class="note-num"><span data-count="28">28</span>K+</div><div class="note-label">monthly users on the Titan Aggregator bot</div></div>
+        <div class="note" style="--c:var(--lime);--r:2deg;--k:1"><span class="tape tc"></span><div class="note-num"><span data-count="15">15</span>x</div><div class="note-label">follower growth for Meta Estate's English channel</div></div>
+        <div class="note" style="--c:var(--pink);--r:-2deg;--k:2"><span class="tape tc"></span><div class="note-num">$<span data-count="15" data-from="7">15</span>M</div><div class="note-label">KLK market cap, up from $7M with my team of 10</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="sec wrap" id="services">
+    <h2 class="sec-title" data-split>Code that <em>ships.</em> Communities that <em>grow.</em></h2>
+    <div class="svc-list" role="list">
+      <article class="svc is-open" role="listitem" tabindex="0" aria-expanded="true">
+        <div class="svc-head"><span class="svc-num">01.</span><h3>Full-Stack Development</h3><span class="svc-arrow"><svg class="icon"><use href="#i-arrow"/></svg></span></div>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div class="svc-content"><div class="svc-tags"><span>React.js</span><span>Node.js</span><span>Express.js</span><span>MongoDB</span><span>REST APIs</span></div>
+          <p>Production web apps with auth, dashboards and PWAs. Crescamus, StudyCircuit and JJ Lodge all shipped this way.</p></div>
+          <div class="svc-img"><img src="Media/studycircuit.png" alt="StudyCircuit screenshot" /></div>
+        </div></div></div>
+      </article>
+      <article class="svc" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="svc-head"><span class="svc-num">02.</span><h3>Web3 and DeFi Tools</h3><span class="svc-arrow"><svg class="icon"><use href="#i-arrow"/></svg></span></div>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div class="svc-content"><div class="svc-tags"><span>Smart Contracts</span><span>TON</span><span>Fogo Chain</span><span>DEX Integration</span><span>DeFi Analytics</span></div>
+          <p>Price alerts read straight from liquidity pools, trading bots and on-chain tooling for real holders.</p></div>
+          <div class="svc-img"><img class="tint" src="Media/hero_graphic.png" alt="On-chain network illustration" /></div>
+        </div></div></div>
+      </article>
+      <article class="svc" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="svc-head"><span class="svc-num">03.</span><h3>Community Growth</h3><span class="svc-arrow"><svg class="icon"><use href="#i-arrow"/></svg></span></div>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div class="svc-content"><div class="svc-tags"><span>Telegram</span><span>Ambassador Programs</span><span>Moderation</span><span>Social Media</span></div>
+          <p>Helped a TON bot reach 28,000+ monthly users and ran ambassador programs across Nigeria.</p></div>
+          <div class="svc-img"><img src="Media/crescamus.png" alt="Crescamus community feed" /></div>
+        </div></div></div>
+      </article>
+      <article class="svc" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="svc-head"><span class="svc-num">04.</span><h3>Bots and Automation</h3><span class="svc-arrow"><svg class="icon"><use href="#i-arrow"/></svg></span></div>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div class="svc-content"><div class="svc-tags"><span>Telegram Bots</span><span>Trading Bots</span><span>Automated Deployment</span></div>
+          <p>Bots that scan markets around the clock, alert holders and keep communities moving without a babysitter.</p></div>
+          <div class="svc-img"><img src="Media/smc_bot.png" alt="SMC trading bot screenshot" /></div>
+        </div></div></div>
+      </article>
+      <article class="svc" role="listitem" tabindex="0" aria-expanded="false">
+        <div class="svc-head"><span class="svc-num">05.</span><h3>Rapid MVPs</h3><span class="svc-arrow"><svg class="icon"><use href="#i-arrow"/></svg></span></div>
+        <div class="svc-body"><div><div class="svc-inner">
+          <div class="svc-content"><div class="svc-tags"><span>Vibecoding</span><span>Prompt Engineering</span><span>Git / GitHub</span></div>
+          <p>AI-assisted builds that put a working product in front of users in days, not months.</p></div>
+          <div class="svc-img"><img src="Media/emberalert.png" alt="EmberAlert screenshot" /></div>
+        </div></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="sec" id="work">
+    <div class="wrap"><h2 class="sec-title" data-split>Proof of <em>work</em></h2></div>
+    <div class="wrap stack">
+      <article class="pcard" style="--i:0;--c:var(--accent)">
+        <div class="ptab"><svg class="icon fill"><use href="#i-spark"/></svg><span class="tn">Crescamus</span></div>
+        <div class="pbody">
+          <div class="pinfo">
+            <div class="pmeta">Full-stack app / PWA</div>
+            <h3>Crescamus</h3>
+            <p>A Catholic social app for scripture study, daily saints, sacred audio and prayer fellowship.</p>
+            <a class="plink" href="https://crescamus.app" target="_blank" rel="noopener">Visit live app <svg class="icon"><use href="#i-arrow"/></svg></a>
+          </div>
+          <div class="pshot"><span class="tape tl"></span><span class="tape tr"></span><img src="Media/crescamus.png" alt="Crescamus screenshot" /></div>
+        </div>
+      </article>
+      <article class="pcard" style="--i:1;--c:var(--lime)">
+        <div class="ptab"><svg class="icon fill"><use href="#i-spark"/></svg><span class="tn">StudyCircuit</span></div>
+        <div class="pbody">
+          <div class="pinfo">
+            <div class="pmeta">Education platform</div>
+            <h3>StudyCircuit</h3>
+            <p>AI-powered tests, real-time collaboration and admin dashboards for students.</p>
+            <a class="plink" href="https://github.com/collex89/My-Industrial-training-project" target="_blank" rel="noopener">View on GitHub <svg class="icon"><use href="#i-arrow"/></svg></a>
+          </div>
+          <div class="pshot"><span class="tape tc"></span><img src="Media/studycircuit.png" alt="StudyCircuit screenshot" /></div>
+        </div>
+      </article>
+      <article class="pcard" style="--i:2;--c:#262626;--tc:var(--fg)">
+        <div class="ptab"><svg class="icon fill"><use href="#i-spark"/></svg><span class="tn">SMC Bot</span></div>
+        <div class="pbody">
+          <div class="pinfo">
+            <div class="pmeta">Algorithmic trading</div>
+            <h3>SMC Trading Bot</h3>
+            <p>Reads Smart Money Concepts market structure every 30 minutes. Deployed and running 24/7.</p>
+            <a class="plink" href="https://web-production-96e66.up.railway.app/" target="_blank" rel="noopener">View deployment <svg class="icon"><use href="#i-arrow"/></svg></a>
+          </div>
+          <div class="pshot"><span class="tape tl"></span><span class="tape tr"></span><img src="Media/smc_bot.png" alt="SMC Trading Bot screenshot" /></div>
+        </div>
+      </article>
+      <article class="pcard" style="--i:3;--c:var(--pink)">
+        <div class="ptab"><svg class="icon fill"><use href="#i-spark"/></svg><span class="tn">EmberAlert</span></div>
+        <div class="pbody">
+          <div class="pinfo">
+            <div class="pmeta">Web3 / Fogo Chain</div>
+            <h3>EmberAlert</h3>
+            <p>Price alerts for Fogo Chain tokens, pulled live from liquidity pools.</p>
+            <span class="plink locked"><svg class="icon"><use href="#i-lock"/></svg> Private repo</span>
+          </div>
+          <div class="pshot"><span class="tape tc"></span><img src="Media/emberalert.png" alt="EmberAlert screenshot" /></div>
+        </div>
+      </article>
+      <article class="pcard" style="--i:4;--c:var(--blue)">
+        <div class="ptab"><svg class="icon fill"><use href="#i-spark"/></svg><span class="tn">JJ Lodge</span></div>
+        <div class="pbody">
+          <div class="pinfo">
+            <div class="pmeta">Hospitality platform</div>
+            <h3>JJ Lodge Nsukka</h3>
+            <p>Booking site for a lodge with rooms, reservations, restaurant and gallery.</p>
+            <a class="plink" href="https://jj-lodge.onrender.com" target="_blank" rel="noopener">Visit live site <svg class="icon"><use href="#i-arrow"/></svg></a>
+          </div>
+          <div class="pshot"><span class="tape tl"></span><span class="tape tr"></span><img src="Media/jjlodge.png" alt="JJ Lodge screenshot" /></div>
+        </div>
+      </article>
+      <article class="pcard" style="--i:5;--c:var(--paper)">
+        <div class="ptab"><svg class="icon fill"><use href="#i-spark"/></svg><span class="tn">EduTrack</span></div>
+        <div class="pbody">
+          <div class="pinfo">
+            <div class="pmeta">Database architecture</div>
+            <h3>EduTrack</h3>
+            <p>Student records platform with separate student and admin access.</p>
+            <span class="plink locked"><svg class="icon"><use href="#i-lock"/></svg> Local build</span>
+          </div>
+          <div class="pshot"><span class="tape tc"></span><img src="Media/edutrack.png" alt="EduTrack screenshot" /></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="sec wrap" id="experience">
+    <h2 class="sec-title" data-split>Where I've <em>worked</em></h2>
+    <div class="chain">
+      <div class="chain-line"><span class="chain-fill"></span></div>
+      <div class="block l"><span class="node"></span><div class="bcard">
+        <div class="bdate">2025 - now</div><div class="brole">Full-Stack Developer</div>
+        <div class="bco">Crescamus App, <a href="https://crescamus.app" target="_blank" rel="noopener">crescamus.app</a></div>
+        <ul><li>Built a Catholic social platform for scripture, daily saints and sacred audio.</li><li>Shipped Google, Apple and email sign-in plus a responsive PWA.</li></ul>
+      </div></div>
+      <div class="block r"><span class="node"></span><div class="bcard">
+        <div class="bdate">2025 - now</div><div class="brole">Chief Marketing Officer</div>
+        <div class="bco">Titan Aggregator, The Open Network</div>
+        <ul><li>Promoted for performance and strategic management.</li><li>Helped the bot reach 28,000+ monthly users.</li></ul>
+      </div></div>
+      <div class="block l"><span class="node"></span><div class="bcard">
+        <div class="bdate">2025 - now</div><div class="brole">Moderator and News Strategist</div>
+        <div class="bco">Valiant Trade, Fogo Chain</div>
+        <ul><li>Community management for the leading DEX on Fogo Chain.</li><li>Grew the Telegram community 2x and counting.</li></ul>
+      </div></div>
+      <div class="block r"><span class="node"></span><div class="bcard">
+        <div class="bdate">2025 - now</div><div class="brole">Vibecoder</div>
+        <div class="bco">Independent development</div>
+        <ul><li>Rapid prototyping of Web3 apps with AI-assisted development.</li><li>Turning complex logic into working MVPs fast.</li></ul>
+      </div></div>
+      <div class="block l"><span class="node"></span><div class="bcard">
+        <div class="bdate">2025</div><div class="brole">Intern and Project Manager</div>
+        <div class="bco">Meta Estate and KLK Foundations</div>
+        <ul><li>Grew Meta Estate's English segment 15x.</li><li>Led 10 chatters as KLK's market cap went from $7M to $15M.</li></ul>
+      </div></div>
+      <div class="block r"><span class="node"></span><div class="bcard">
+        <div class="bdate">2024 - 2025</div><div class="brole">Regional Lead Ambassador</div>
+        <div class="bco">PrayTelegram, Nigeria</div>
+        <ul><li>Built a local community through promotion and engagement.</li><li>Developed and ran the ambassadorship program.</li></ul>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact wrap" id="contact">
+    <div class="big" id="big" aria-label="Let's build">
+      <span class="word"><span style="--i:0">L</span><span style="--i:1">E</span><span style="--i:2">T</span><span style="--i:3">'</span><span style="--i:4">S</span></span>
+      <span class="word"><span style="--i:5">B</span><span style="--i:6">U</span><span style="--i:7">I</span><span style="--i:8">L</span><span style="--i:9">D</span></span>
+    </div>
+    <p class="contact-sub" data-reveal>Open to full-stack roles, Web3 teams and community work.</p>
+    <div class="contact-row" data-reveal style="--rd:.1s">
+      <a href="mailto:ugwucollins881@gmail.com" class="btn btn-primary" data-magnet>Get in touch <span class="knob"><svg class="icon"><use href="#i-right"/></svg></span></a>
+      <div class="email"><span id="emailTxt">ugwucollins881@gmail.com</span><button type="button" id="copyBtn"><svg class="icon"><use href="#i-copy"/></svg><span>Copy</span></button></div>
+    </div>
+    <div class="socials" data-reveal style="--rd:.2s">
+      <a class="soc" href="https://t.me/collex89" target="_blank" rel="noopener" style="--c:var(--blue);--r:-4deg"><small>Telegram</small>@collex89</a>
+      <a class="soc" href="https://x.com/collex89" target="_blank" rel="noopener" style="--c:var(--paper);--r:3deg"><small>X</small>@Collex89</a>
+      <a class="soc" href="https://github.com/collex89" target="_blank" rel="noopener" style="--c:var(--lime);--r:-2deg"><small>GitHub</small>collex89</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-bar">
+    <span>Collins, 2026</span>
+    <nav aria-label="Footer"><a href="#about">About</a><a href="#services">Services</a><a href="#work">Work</a><a href="#experience">Experience</a></nav>
+    <a href="#top" class="top-btn" aria-label="Back to top"><svg class="icon"><use href="#i-up"/></svg></a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(pointer: fine)').matches;
+  function $$(s, c){ return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
+
+  // split section titles into words for the rise reveal
+  $$('[data-split]').forEach(function(el){
+    var i = 0, frag = document.createDocumentFragment();
+    function wrap(node){
+      var o = document.createElement('span'); o.className = 'w';
+      var n = document.createElement('span'); n.className = 'wi'; n.style.setProperty('--wi', i++);
+      n.appendChild(node); o.appendChild(n); return o;
+    }
+    Array.prototype.slice.call(el.childNodes).forEach(function(n){
+      if (n.nodeType === 3) {
+        n.textContent.split(/(\s+)/).forEach(function(t){
+          if (!t) return;
+          if (/^\s+$/.test(t)) frag.appendChild(document.createTextNode(' '));
+          else frag.appendChild(wrap(document.createTextNode(t)));
+        });
+      } else frag.appendChild(wrap(n));
+    });
+    el.textContent = ''; el.appendChild(frag);
+  });
+
+  // count-up
+  function count(el){
+    var to = +el.dataset.count, from = +(el.dataset.from || 0);
+    if (reduce) { el.textContent = to; return; }
+    var t0 = null;
+    function step(t){
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0) / 1300, 1), e = 1 - Math.pow(1 - p, 4);
+      el.textContent = Math.round(from + (to - from) * e);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    el.textContent = from;
+    requestAnimationFrame(step);
+  }
+
+  // reveal on view
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      $$('[data-count]', e.target).forEach(count);
+      io.unobserve(e.target);
+    });
+  }, { threshold: .2, rootMargin: '0px 0px -5% 0px' });
+  $$('[data-reveal],[data-split],.note,.tag-row,.hand-copy,.pcard,.block,.big').forEach(function(el){ io.observe(el); });
+
+  // active nav link
+  var links = $$('.nav-links a');
+  var navIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  $$('main section[id]').forEach(function(s){ navIo.observe(s); });
+
+  // name scramble
+  var glyphs = '#$%&*@01XZ<>/=';
+  function scramble(){
+    $$('#name span').forEach(function(s, i){
+      var n = 0, total = 5 + i * 2;
+      clearInterval(s._t);
+      s._t = setInterval(function(){
+        n++;
+        s.textContent = n >= total ? s.dataset.c : glyphs[Math.random() * glyphs.length | 0];
+        if (n >= total) clearInterval(s._t);
+      }, 45);
+    });
+  }
+  if (!reduce) {
+    setTimeout(scramble, 1900);
+    document.getElementById('nameBox').addEventListener('mouseenter', scramble);
+  }
+
+  // services accordion
+  var rows = $$('.svc'), hoverT;
+  function openRow(r){
+    rows.forEach(function(o){ var on = o === r; o.classList.toggle('is-open', on); o.setAttribute('aria-expanded', on); });
+  }
+  rows.forEach(function(r){
+    r.addEventListener('click', function(){ openRow(r); });
+    r.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openRow(r); } });
+    if (fine) {
+      r.addEventListener('mouseenter', function(){ clearTimeout(hoverT); hoverT = setTimeout(function(){ openRow(r); }, 160); });
+      r.addEventListener('mouseleave', function(){ clearTimeout(hoverT); });
+    }
+  });
+
+  // copy email
+  var copyBtn = document.getElementById('copyBtn');
+  copyBtn.addEventListener('click', function(){
+    var label = copyBtn.querySelector('span');
+    var done = function(){ label.textContent = 'Copied'; setTimeout(function(){ label.textContent = 'Copy'; }, 1600); };
+    var select = function(){
+      var r = document.createRange(); r.selectNodeContents(document.getElementById('emailTxt'));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r); label.textContent = 'Selected';
+      setTimeout(function(){ label.textContent = 'Copy'; }, 1600);
+    };
+    try { navigator.clipboard.writeText('ugwucollins881@gmail.com').then(done, select); } catch (err) { select(); }
+  });
+
+  if (reduce || !fine) return;
+
+  // cursor spotlight
+  var spot = document.getElementById('spot'), mx = 0, my = 0, raf = 0;
+  addEventListener('pointermove', function(e){
+    mx = e.clientX; my = e.clientY;
+    if (!raf) raf = requestAnimationFrame(function(){ spot.style.setProperty('--mx', mx + 'px'); spot.style.setProperty('--my', my + 'px'); raf = 0; });
+  }, { passive: true });
+
+  // magnetic buttons
+  $$('[data-magnet]').forEach(function(b){
+    b.addEventListener('pointermove', function(e){
+      var r = b.getBoundingClientRect();
+      b.style.translate = ((e.clientX - r.left - r.width / 2) * .25) + 'px ' + ((e.clientY - r.top - r.height / 2) * .3) + 'px';
+    });
+    b.addEventListener('pointerleave', function(){ b.style.translate = ''; });
+  });
+
+  // tilt on screenshots and polaroids
+  $$('.pshot, .polaroid').forEach(function(el){
+    el.addEventListener('pointermove', function(e){
+      var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.transform = 'perspective(800px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg)';
+    });
+    el.addEventListener('pointerleave', function(){ el.style.transform = ''; });
+  });
+})();
+</script>
+
 </body>
-
 </html>
