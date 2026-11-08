@@ -287,6 +287,40 @@ html.js .block.in .bcard{opacity:1;translate:0 0}
 .bcard li{font-size:14.5px;line-height:1.55;color:#cfccc5;padding-left:20px;position:relative}
 .bcard li::before{content:"";position:absolute;left:2px;top:.55em;width:7px;height:7px;background:var(--accent);rotate:45deg}
 
+/* ---------- demos ---------- */
+.demos-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;position:relative}
+.demos-hand-note{font-family:var(--f-hand);font-size:22px;color:var(--muted);display:flex;align-items:flex-end;gap:4px}
+.demos-hand-note svg{width:46px;height:40px;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+.demos-sub{color:var(--muted);font-size:16px;margin-top:14px;max-width:54ch}
+.demo-list{margin-top:40px;display:grid;gap:36px}
+.demo-card{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .3s,box-shadow .3s,translate .6s var(--ease)}
+.demo-card:hover{border-color:rgba(255,164,27,.4);box-shadow:0 20px 50px -15px rgba(0,0,0,.65)}
+.demo-tab{position:absolute;top:0;left:0;display:inline-flex;align-items:center;gap:8px;padding:7px 24px 7px 18px;
+  background:var(--accent);color:var(--ink);font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 100%,0 100%);z-index:3}
+.demo-tab .icon{width:11px;height:11px}
+.demo-body{display:grid;grid-template-columns:1fr 1.15fr;gap:44px;align-items:center;padding:52px 40px 42px}
+.demo-meta{display:flex;align-items:center;gap:12px;font-family:var(--f-mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.demo-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:rgba(255,164,27,.12);color:var(--accent);border:1px solid rgba(255,164,27,.28);border-radius:6px}
+.demo-info h3{font-size:clamp(24px,3.2vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.15;color:var(--fg)}
+.demo-info p{margin-top:14px;font-size:15.5px;line-height:1.6;color:var(--muted);max-width:44ch}
+.demo-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.demo-tags span{font-family:var(--f-mono);font-size:11.5px;border:1.5px solid var(--line);background:var(--bg-3);padding:4px 10px;border-radius:6px;color:var(--fg)}
+.demo-cta{margin-top:26px}
+.demo-media{position:relative;display:block;text-decoration:none;cursor:pointer}
+.demo-thumb-wrap{position:relative;background:var(--paper);padding:8px;border-radius:4px;box-shadow:0 20px 45px -14px rgba(0,0,0,.7);transition:transform .4s var(--spring),box-shadow .4s var(--ease)}
+.demo-media:hover .demo-thumb-wrap{box-shadow:0 26px 60px -12px rgba(255,164,27,.3)}
+.demo-thumb-wrap img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px;display:block;transition:filter .3s,transform .4s var(--spring)}
+.demo-media:hover .demo-thumb-wrap img{filter:brightness(1.08);transform:scale(1.02)}
+.play-overlay{position:absolute;inset:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(18,18,18,.42);backdrop-filter:blur(2px);transition:background .3s;border-radius:2px}
+.demo-media:hover .play-overlay{background:rgba(18,18,18,.22)}
+.play-btn{width:64px;height:64px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.6);transition:transform .4s var(--spring),background .3s,color .3s}
+.play-btn .icon{width:22px;height:22px;margin-left:3px}
+.demo-media:hover .play-btn{transform:scale(1.15);background:var(--fg)}
+.play-label{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);background:rgba(0,0,0,.75);padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.18);transition:transform .3s var(--ease),border-color .3s,color .3s}
+.demo-media:hover .play-label{transform:translateY(2px);border-color:var(--accent);color:var(--accent)}
+.video-duration{position:absolute;bottom:16px;right:16px;font-family:var(--f-mono);font-size:10.5px;font-weight:700;color:var(--fg);background:rgba(0,0,0,.82);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.14);z-index:2}
+
 /* ---------- contact ---------- */
 .contact{text-align:center;padding-block:140px 30px}
 .big{font-family:var(--f-pixel);font-weight:700;font-size:clamp(64px,13vw,190px);line-height:.95;display:flex;justify-content:center;flex-wrap:wrap;gap:0 .3em}
@@ -348,6 +382,9 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
   .svc-img{display:none}
   .svc-head{grid-template-columns:44px 1fr auto}
   .svc{--notch:polygon(0 12px,40px 12px,52px 0,100% 0,100% 100%,0 100%)}
+  .demos-hand-note{display:none}
+  .demo-body{grid-template-columns:1fr;padding:46px 20px 28px;gap:26px}
+  .demo-media{order:-1}
   .pbody{grid-template-columns:1fr;padding:30px 24px 34px;gap:26px;min-height:calc(100svh - 150px);align-content:start}
   .pshot{order:-1}
   .ptab{left:calc(var(--i) * 48px);padding:0 22px 0 14px}
@@ -393,6 +430,8 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="1.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 1.5c.7 6.2 4.3 9.8 10.5 10.5-6.2.7-9.8 4.3-10.5 10.5C11.3 16.3 7.7 12.7 1.5 12 7.7 11.3 11.3 7.7 12 1.5z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" fill="currentColor"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="4" width="15" height="16" rx="2"/><path d="m22 7-5 5 5 5V7z"/></symbol>
 </svg>
 
 <div class="grid-bg"></div>
@@ -416,6 +455,7 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#work">Work</a>
+      <a href="#demos">Demos</a>
       <a href="#experience">Experience</a>
     </nav>
     <a href="#contact" class="btn btn-light" data-magnet>Get in touch</a>
@@ -615,10 +655,10 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
           <div class="pinfo">
             <div class="pmeta">Hospitality platform</div>
             <h3>JJ Lodge Nsukka</h3>
-            <p>Booking site for a lodge with rooms, reservations, restaurant and gallery.</p>
-            <a class="plink" href="https://jj-lodge.onrender.com" target="_blank" rel="noopener">Visit live site <svg class="icon"><use href="#i-arrow"/></svg></a>
+            <p>Booking site for a Nsukka lodge: three room tiers, a transfer-and-receipt booking flow, plus its restaurant and garden bar.</p>
+            <a class="plink" href="https://jj-lodge-ivory.vercel.app/" target="_blank" rel="noopener">Visit live site <svg class="icon"><use href="#i-arrow"/></svg></a>
           </div>
-          <div class="pshot"><span class="tape tl"></span><span class="tape tr"></span><img src="Media/jjlodge.png" alt="JJ Lodge screenshot" /></div>
+          <div class="pshot"><span class="tape tl"></span><span class="tape tr"></span><img src="Media/jjlodge.webp" style="object-position:left top" alt="JJ Lodge Nsukka homepage" /></div>
         </div>
       </article>
       <article class="pcard" style="--i:5;--c:var(--paper)">
@@ -631,6 +671,55 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
             <span class="plink locked"><svg class="icon"><use href="#i-lock"/></svg> Local build</span>
           </div>
           <div class="pshot"><span class="tape tc"></span><img src="Media/edutrack.png" alt="EduTrack screenshot" /></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- DEMOS -->
+  <section class="sec wrap" id="demos">
+    <div class="demos-header">
+      <h2 class="sec-title" data-split>Live <em>demos</em></h2>
+      <div class="demos-hand-note">see it in action<svg viewBox="0 0 46 40"><path d="M3 6c14 0 30 8 36 26M30 27l9 6 4-10"/></svg></div>
+    </div>
+    <p class="demos-sub" data-reveal>Real walkthroughs, contract teardowns, and Web3 product demos in action.</p>
+
+    <div class="demo-list">
+      <article class="demo-card" data-reveal>
+        <div class="demo-tab"><svg class="icon fill"><use href="#i-spark"/></svg><span>Video Demo</span></div>
+        <div class="demo-body">
+          <div class="demo-info">
+            <div class="demo-meta">
+              <span class="demo-badge"><svg class="icon"><use href="#i-video"/></svg> X / Twitter Video</span>
+              <span class="demo-date">Nov 2026</span>
+            </div>
+            <h3>TAVIK: Solving the On-Chain Information Gap</h3>
+            <p>Most people who got rugged weren't short on information — the contract risks were right there on-chain. Here's a breakdown of what TAVIK is building to eliminate the technical barrier to smart contract analysis.</p>
+            <div class="demo-tags">
+              <span>On-Chain Security</span>
+              <span>Smart Contracts</span>
+              <span>DeFi Due Diligence</span>
+            </div>
+            <a class="btn btn-primary demo-cta" href="https://x.com/CollEx89/status/2118622827116933191?a=LyIu0ybBF0VCIelaGEE&s=20" target="_blank" rel="noopener noreferrer" data-magnet>
+              <span>Watch full demo on X</span>
+              <span class="knob"><svg class="icon"><use href="#i-arrow"/></svg></span>
+            </a>
+          </div>
+
+          <a class="demo-media" href="https://x.com/CollEx89/status/2118622827116933191?a=LyIu0ybBF0VCIelaGEE&s=20" target="_blank" rel="noopener noreferrer" aria-label="Watch TAVIK demo video on X">
+            <div class="demo-thumb-wrap">
+              <span class="tape tl"></span>
+              <span class="tape tr"></span>
+              <img src="Media/demo_thumbnail.jpg" alt="TAVIK Video Demo Thumbnail" />
+              <div class="play-overlay">
+                <div class="play-btn">
+                  <svg class="icon fill"><use href="#i-play"/></svg>
+                </div>
+                <span class="play-label">Click to watch video</span>
+              </div>
+              <span class="video-duration">0:11</span>
+            </div>
+          </a>
         </div>
       </article>
     </div>
@@ -696,7 +785,7 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
 <footer class="foot">
   <div class="foot-bar">
     <span>Collins, 2026</span>
-    <nav aria-label="Footer"><a href="#about">About</a><a href="#services">Services</a><a href="#work">Work</a><a href="#experience">Experience</a></nav>
+    <nav aria-label="Footer"><a href="#about">About</a><a href="#services">Services</a><a href="#work">Work</a><a href="#demos">Demos</a><a href="#experience">Experience</a></nav>
     <a href="#top" class="top-btn" aria-label="Back to top"><svg class="icon"><use href="#i-up"/></svg></a>
   </div>
 </footer>
@@ -751,7 +840,7 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
       io.unobserve(e.target);
     });
   }, { threshold: .2, rootMargin: '0px 0px -5% 0px' });
-  $$('[data-reveal],[data-split],.note,.tag-row,.hand-copy,.pcard,.block,.big').forEach(function(el){ io.observe(el); });
+  $$('[data-reveal],[data-split],.note,.tag-row,.hand-copy,.pcard,.demo-card,.block,.big').forEach(function(el){ io.observe(el); });
 
   // active nav link
   var links = $$('.nav-links a');
@@ -827,7 +916,7 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
   });
 
   // tilt on screenshots and polaroids
-  $$('.pshot, .polaroid').forEach(function(el){
+  $$('.pshot, .polaroid, .demo-thumb-wrap').forEach(function(el){
     el.addEventListener('pointermove', function(e){
       var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
       el.style.transform = 'perspective(800px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg)';
