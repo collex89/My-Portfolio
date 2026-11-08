@@ -296,7 +296,7 @@ html.js .block.in .bcard{opacity:1;translate:0 0}
 .demo-card{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .3s,box-shadow .3s,translate .6s var(--ease)}
 .demo-card:hover{border-color:rgba(255,164,27,.4);box-shadow:0 20px 50px -15px rgba(0,0,0,.65)}
 .demo-tab{position:absolute;top:0;left:0;display:inline-flex;align-items:center;gap:8px;padding:7px 24px 7px 18px;
-  background:var(--accent);color:var(--ink);font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--c,var(--accent));color:var(--tc,var(--ink));font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   clip-path:polygon(0 0,calc(100% - 14px) 0,100% 100%,0 100%);z-index:3}
 .demo-tab .icon{width:11px;height:11px}
 .demo-body{display:grid;grid-template-columns:1fr 1.15fr;gap:44px;align-items:center;padding:52px 40px 42px}
@@ -314,7 +314,7 @@ html.js .block.in .bcard{opacity:1;translate:0 0}
 .demo-media:hover .demo-thumb-wrap img{filter:brightness(1.08);transform:scale(1.02)}
 .play-overlay{position:absolute;inset:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(18,18,18,.42);backdrop-filter:blur(2px);transition:background .3s;border-radius:2px}
 .demo-media:hover .play-overlay{background:rgba(18,18,18,.22)}
-.play-btn{width:64px;height:64px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.6);transition:transform .4s var(--spring),background .3s,color .3s}
+.play-btn{width:64px;height:64px;border-radius:50%;background:var(--c,var(--accent));color:var(--tc,var(--ink));display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.6);transition:transform .4s var(--spring),background .3s,color .3s}
 .play-btn .icon{width:22px;height:22px;margin-left:3px}
 .demo-media:hover .play-btn{transform:scale(1.15);background:var(--fg)}
 .play-label{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);background:rgba(0,0,0,.75);padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.18);transition:transform .3s var(--ease),border-color .3s,color .3s}
@@ -685,7 +685,7 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
     <p class="demos-sub" data-reveal>Real walkthroughs, contract teardowns, and Web3 product demos in action.</p>
 
     <div class="demo-list">
-      <article class="demo-card" data-reveal>
+      <article class="demo-card" data-reveal style="--c:var(--accent)">
         <div class="demo-tab"><svg class="icon fill"><use href="#i-spark"/></svg><span>Video Demo</span></div>
         <div class="demo-body">
           <div class="demo-info">
@@ -718,6 +718,45 @@ html.js .big.in span span:hover{translate:0 -14px;color:var(--accent);transition
                 <span class="play-label">Click to watch video</span>
               </div>
               <span class="video-duration">0:11</span>
+            </div>
+          </a>
+        </div>
+      </article>
+
+      <article class="demo-card" data-reveal style="--c:var(--mint);--rd:.1s">
+        <div class="demo-tab"><svg class="icon fill"><use href="#i-spark"/></svg><span>Video Demo</span></div>
+        <div class="demo-body">
+          <div class="demo-info">
+            <div class="demo-meta">
+              <span class="demo-badge" style="background:rgba(143,227,184,.12);color:var(--mint);border-color:rgba(143,227,184,.28)"><svg class="icon"><use href="#i-video"/></svg> X / Twitter Video</span>
+              <span class="demo-date">Oct 2026</span>
+            </div>
+            <h3>Crescamus: AI App Auditor Agent Test</h3>
+            <p>Pointed Reason Machines' App Auditor agent (running GPT-6.1 Sol) at Crescamus on the live domain under a strict browse-only rule. It surfaced 9 real issues with steps, screenshots, and actionable fixes.</p>
+            <div class="demo-tags">
+              <span>AI Agents</span>
+              <span>Crescamus</span>
+              <span>Autonomous QA</span>
+              <span>App Auditing</span>
+            </div>
+            <a class="btn btn-primary demo-cta" href="https://x.com/CollEx89/status/2112945014208712929?a=Lw32ueuMTGfyqrFeY_g&s=20" target="_blank" rel="noopener noreferrer" data-magnet>
+              <span>Watch full demo on X</span>
+              <span class="knob"><svg class="icon"><use href="#i-arrow"/></svg></span>
+            </a>
+          </div>
+
+          <a class="demo-media" href="https://x.com/CollEx89/status/2112945014208712929?a=Lw32ueuMTGfyqrFeY_g&s=20" target="_blank" rel="noopener noreferrer" aria-label="Watch Crescamus AI App Auditor demo video on X">
+            <div class="demo-thumb-wrap">
+              <span class="tape tl"></span>
+              <span class="tape tr"></span>
+              <img src="Media/demo_thumbnail_2.jpg" alt="Crescamus AI App Auditor Demo Thumbnail" />
+              <div class="play-overlay">
+                <div class="play-btn">
+                  <svg class="icon fill"><use href="#i-play"/></svg>
+                </div>
+                <span class="play-label">Click to watch video</span>
+              </div>
+              <span class="video-duration">1:10</span>
             </div>
           </a>
         </div>
